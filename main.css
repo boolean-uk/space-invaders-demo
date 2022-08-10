@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Press Start 2P', cursive;
 }
 
 body {
@@ -42,4 +43,20 @@ body {
 
 .hit {
   background-image: url('./images/explosion.png');
+}
+
+.message {
+  position: absolute;
+  top: 200px;
+  left: 200px;
+  width: 200px;
+  height: 100px;
+  background-color: white;
+  opacity: 85%;
+}
+
+.message h1 {
+  color: blue;
+  text-align: center;
+  line-height: 50px;
 }

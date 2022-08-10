@@ -19,7 +19,15 @@ body {
   grid-auto-rows: 40px;
 }
 
-.cell {
+.grid > div {
   width: 40px;
-  height: 40px
+  height: 40px;
+
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.spaceship {
+  background-image: url('./images/spaceship.png');
 }

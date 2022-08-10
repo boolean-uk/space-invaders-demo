@@ -60,6 +60,29 @@ const moveShip = (direction) => {
   state.cells[state.shipPosition].classList.add('spaceship')
 }
 
+const fire = () => {
+  // using an interval add and remove bg image for a laser increasing up the grid
+  // clear interval when laser reaches the top.
+  // laser starts at ship position
+  let interval
+  let laserPosition = state.shipPosition
+
+  interval = setInterval(() => {
+    // first remove laser image from cell
+    state.cells[laserPosition].classList.remove('laser')
+    // then move up the grid
+    laserPosition-=15
+    // before we do anything, check we're still in the grid.
+    if (laserPosition < 0) {
+      clearInterval(interval)
+      return
+    }
+
+    // add image
+    state.cells[laserPosition].classList.add('laser')
+  }, 100)
+}
+
 const play = () => {
   // start the ability to move and fire
   window.addEventListener('keydown', controlShip)

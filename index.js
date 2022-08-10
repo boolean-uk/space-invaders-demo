@@ -104,14 +104,66 @@ const fire = () => {
 }
 
 const drawAliens = () => {
-  // loop through alien positions, add class name to corresponding cell.
-  state.alienPositions.forEach(position => state.cells[position].classList.add('alien'))
+  // loop through cells, remove, and add class name to corresponding cell.
+  state.cells.forEach((cell, index) => {
+    // reset: if cell index is currently an alien position remove it
+    if (cell.classList.contains('alien')) {
+      cell.classList.remove('alien')
+    }
+    // update: if cell index is an alien position, add alien class
+    if (state.alienPositions.includes(index)) {
+      cell.classList.add('alien')
+    }
+  })
 }
 
 const play = () => {
+  // start the aliens moving!
+  let interval
+  // set starting direction
+  let direction = 'right'
+  // set interval to repeat updating alien positions and drawing them
+  interval = setInterval(() => {
+    let movement
+    // if right
+    if (direction === 'right') {
+      if (atSide('right')) {
+        // go down a row and reverse direction to the left
+        movement = 15 - 1
+        direction = 'left'
+      } else {
+        // continue right
+        movement = 1
+      }
+      // if left
+    } else if (direction === 'left') {
+      if (atSide('left')) {
+        // go down a row and reverse direction to the right
+        movement = 15 + 1
+        direction = 'right'
+      } else {
+        // continue left
+        movement = -1
+      }
+    }
+    //update alien positions
+    state.alienPositions = state.alienPositions.map(position => position + movement)
+    // redraw aliens
+    drawAliens()
+  }, 300)
   // start the ability to move and fire
   window.addEventListener('keydown', controlShip)
-  // start the aliens moving!
+
+}
+
+const atSide = (side) => {
+  if (side === 'left') {
+    // are there any aliens with a position in left hand column? (index multiple of 15)
+    return state.alienPositions.some(position => position % 15 === 0)
+  } else if (side === 'right') {
+    // are there any aliens with a position in right hand column? (index multiple of 15 -1)
+    return state.alienPositions.some(position => position % 15 === 14)
+  }
 }
 
 

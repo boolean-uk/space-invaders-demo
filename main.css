@@ -31,3 +31,7 @@ body {
 .spaceship {
   background-image: url('./images/spaceship.png');
 }
+
+.laser {
+  background-image: url('./images/projectile.png');
+}

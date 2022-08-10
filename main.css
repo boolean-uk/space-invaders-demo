@@ -7,3 +7,19 @@
 body {
   background-color: blue;
 }
+
+.grid {
+  width: 604px;
+  height: 604px;
+  margin: 20px;
+  border: 2px solid white;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 40px);
+  grid-auto-rows: 40px;
+}
+
+.cell {
+  width: 40px;
+  height: 40px
+}

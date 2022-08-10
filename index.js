@@ -44,6 +44,8 @@ const drawShip = () => {
 }
 
 const controlShip = (event) => {
+  if (state.gameover) return
+
   // demonstrate
   // console.log(event)
   if (event.code === 'ArrowLeft') {
@@ -150,6 +152,8 @@ const play = () => {
     state.alienPositions = state.alienPositions.map(position => position + movement)
     // redraw aliens
     drawAliens()
+    // check game state (and stop the aliens, and stop the ship)
+    checkGameState(interval)
   }, 300)
   // start the ability to move and fire
   window.addEventListener('keydown', controlShip)
@@ -166,6 +170,43 @@ const atSide = (side) => {
   }
 }
 
+const checkGameState = (interval) => {
+  // if there are no more aliens
+  if (state.alienPositions.length === 0) {
+    // stop aliens
+    clearInterval(interval)
+    // set game state
+    state.gameover = true
+    // show win message
+    drawMessage("HUMAN WINS!")
+
+    // if aliens reach bottom row..ish
+  } else if (state.alienPositions.some(position => position >= state.shipPosition)){
+    // stop aliens
+    clearInterval(interval)
+    // set game state
+    state.gameover = true
+    // make ship go boom
+    state.cells[state.shipPosition].classList.remove('spaceship')
+    state.cells[state.shipPosition].classList.add('hit')
+    // show lose message
+    drawMessage("GAME OVER!")
+  }
+}
+
+const drawMessage = (message)  => {
+  // add message element with class
+  const messageEl = document.createElement('div')
+  messageEl.classList.add('message')
+
+  // append h1 with text
+  const h1 = document.createElement('h1')
+  h1.innerText = message
+  messageEl.append(h1)
+
+  // append el to the app
+  state.element.append(messageEl)
+}
 
 // query the page for the element
 const appElement = document.querySelector('.app')

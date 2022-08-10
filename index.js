@@ -36,7 +36,33 @@ const drawShip = () => {
   state.cells[state.shipPosition].classList.add('spaceship')
 }
 
+const controlShip = (event) => {
+  // demonstrate
+  // console.log(event)
+  if (event.code === 'ArrowLeft') {
+    moveShip('left')
+  } else if (event.code === 'ArrowRight') {
+    moveShip('right')
+  } else if (event.code === 'Space') {
+    fire()
+  }
+}
+
+const moveShip = (direction) => {
+  // remove class, update position, add class.
+  // grid boundaries using modulo (left side multiples of 15, right side (15 minus 1))
+  state.cells[state.shipPosition].classList.remove('spaceship')
+  if (direction === 'left' && state.shipPosition % 15 !== 0) {
+    state.shipPosition--
+  } else if (direction === 'right' && state.shipPosition % 15 !== 14) {
+    state.shipPosition++
+  }
+  state.cells[state.shipPosition].classList.add('spaceship')
+}
+
 const play = () => {
+  // start the ability to move and fire
+  window.addEventListener('keydown', controlShip)
   // start the aliens moving!
 }
 

@@ -35,3 +35,11 @@ body {
 .laser {
   background-image: url('./images/projectile.png');
 }
+
+.alien {
+  background-image: url('./images/alien.png');
+}
+
+.hit {
+  background-image: url('./images/explosion.png');
+}

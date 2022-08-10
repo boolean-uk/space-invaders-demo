@@ -125,6 +125,7 @@ const play = () => {
   // set interval to repeat updating alien positions and drawing them
   interval = setInterval(() => {
     let movement
+<<<<<<< HEAD
     // if right
     if (direction === 'right') {
       if (atSide('right')) {
@@ -149,6 +150,24 @@ const play = () => {
     //update alien positions
     state.alienPositions = state.alienPositions.map(position => position + movement)
     // redraw aliens
+=======
+    if (direction === 'right') {
+      if (atSide('right')) {
+        movement = 15 - 1
+        direction = 'left'
+      } else {
+        movement = 1
+      }
+    } else if (direction === 'left') {
+      if (atSide('left')) {
+        movement = 15 + 1
+        direction = 'right'
+      } else {
+        movement = -1
+      }
+    }
+    state.alienPositions = state.alienPositions.map(position => position + movement)
+>>>>>>> afaaa8f (aliens move down)
     drawAliens()
   }, 300)
   // start the ability to move and fire
@@ -158,10 +177,15 @@ const play = () => {
 
 const atSide = (side) => {
   if (side === 'left') {
+<<<<<<< HEAD
     // are there any aliens with a position in left hand column? (index multiple of 15)
     return state.alienPositions.some(position => position % 15 === 0)
   } else if (side === 'right') {
     // are there any aliens with a position in right hand column? (index multiple of 15 -1)
+=======
+    return state.alienPositions.some(position => position % 15 === 0)
+  } else if (side === 'right') {
+>>>>>>> afaaa8f (aliens move down)
     return state.alienPositions.some(position => position % 15 === 14)
   }
 }

@@ -9,6 +9,12 @@ body {
   background-color: blue;
 }
 
+.app {
+  display: grid;
+  grid-template-columns: 644px 1fr;
+  gap: 10px;
+}
+
 .grid {
   width: 604px;
   height: 604px;
@@ -59,4 +65,13 @@ body {
   color: blue;
   text-align: center;
   line-height: 50px;
+}
+
+.scoreboard {
+  margin: 20px;
+  color: white;
+}
+
+.scoreboard > * {
+  margin: 20px;
 }

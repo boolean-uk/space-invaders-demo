@@ -8,7 +8,8 @@ const state = {
     18,19,20,21,22,23,24,25,26,
     33,34,35,36,37,38,39,40,41,
     48,49,50,51,52,53,54,55,56
-  ]
+  ],
+  score: 0
 }
 
 const setupGame = (element) => {
@@ -20,6 +21,7 @@ const setupGame = (element) => {
   // draw the aliens
   drawAliens()
   // draw the scoreboard
+  drawScoreboard()
 }
 
 const drawGrid = () => {
@@ -94,6 +96,8 @@ const fire = () => {
       state.alienPositions.splice(state.alienPositions.indexOf(laserPosition), 1)
       state.cells[laserPosition].classList.remove('alien')
       state.cells[laserPosition].classList.add('hit')
+      state.score++
+      state.scoreElement.innerText = state.score
       setTimeout(() => {
         state.cells[laserPosition].classList.remove('hit')
       }, 200)
@@ -206,6 +210,27 @@ const drawMessage = (message)  => {
 
   // append el to the app
   state.element.append(messageEl)
+}
+
+
+const drawScoreboard = () => {
+  const heading = document.createElement("h1")
+  heading.innerText = 'Space Invaders'
+  const paragraph1 = document.createElement("p")
+  paragraph1.innerText = 'Press SPACE to shoot.'
+  const paragraph2 = document.createElement("p")
+  paragraph2.innerText = 'Press ← and → to move'
+  const scoreboard = document.createElement('div')
+  scoreboard.classList.add('scoreboard')
+  const scoreElement = document.createElement('span')
+  scoreElement.innerText = state.score
+  const heading3 = document.createElement('h3')
+  heading3.innerText = 'Score: '
+  heading3.append(scoreElement)
+  scoreboard.append(heading, paragraph1, paragraph2, heading3)
+
+  state.scoreElement = scoreElement
+  state.element.append(scoreboard)
 }
 
 // query the page for the element

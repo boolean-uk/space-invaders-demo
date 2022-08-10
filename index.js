@@ -2,7 +2,13 @@
 const state = {
   numCells: (600 / 40) * (600 / 40),
   cells: [],
-  shipPosition: 217
+  shipPosition: 217,
+  alienPositions: [
+    3, 4, 5, 6, 7, 8, 9, 10,11,
+    18,19,20,21,22,23,24,25,26,
+    33,34,35,36,37,38,39,40,41,
+    48,49,50,51,52,53,54,55,56
+  ]
 }
 
 const setupGame = (element) => {
@@ -12,6 +18,7 @@ const setupGame = (element) => {
   // draw the spaceship
   drawShip()
   // draw the aliens
+  drawAliens()
   // draw the scoreboard
 }
 
@@ -78,9 +85,27 @@ const fire = () => {
       return
     }
 
+    // if there's an alien, BOOM!
+    // clear interval, remove alien image, remove alien from positions, set a timeout for a boom emoji
+    if (state.alienPositions.includes(laserPosition)) {
+      clearInterval(interval)
+      state.alienPositions.splice(state.alienPositions.indexOf(laserPosition), 1)
+      state.cells[laserPosition].classList.remove('alien')
+      state.cells[laserPosition].classList.add('hit')
+      setTimeout(() => {
+        state.cells[laserPosition].classList.remove('hit')
+      }, 200)
+      return
+    }
+
     // add image
     state.cells[laserPosition].classList.add('laser')
   }, 100)
+}
+
+const drawAliens = () => {
+  // loop through alien positions, add class name to corresponding cell.
+  state.alienPositions.forEach(position => state.cells[position].classList.add('alien'))
 }
 
 const play = () => {

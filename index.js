@@ -44,6 +44,8 @@ const drawShip = () => {
 }
 
 const controlShip = (event) => {
+  if (state.gameover) return
+
   // demonstrate
   // console.log(event)
   if (event.code === 'ArrowLeft') {
@@ -125,7 +127,6 @@ const play = () => {
   // set interval to repeat updating alien positions and drawing them
   interval = setInterval(() => {
     let movement
-<<<<<<< HEAD
     // if right
     if (direction === 'right') {
       if (atSide('right')) {
@@ -150,25 +151,9 @@ const play = () => {
     //update alien positions
     state.alienPositions = state.alienPositions.map(position => position + movement)
     // redraw aliens
-=======
-    if (direction === 'right') {
-      if (atSide('right')) {
-        movement = 15 - 1
-        direction = 'left'
-      } else {
-        movement = 1
-      }
-    } else if (direction === 'left') {
-      if (atSide('left')) {
-        movement = 15 + 1
-        direction = 'right'
-      } else {
-        movement = -1
-      }
-    }
-    state.alienPositions = state.alienPositions.map(position => position + movement)
->>>>>>> afaaa8f (aliens move down)
     drawAliens()
+    // check game state (and stop the aliens, and stop the ship)
+    checkGameState(interval)
   }, 300)
   // start the ability to move and fire
   window.addEventListener('keydown', controlShip)
@@ -177,19 +162,51 @@ const play = () => {
 
 const atSide = (side) => {
   if (side === 'left') {
-<<<<<<< HEAD
     // are there any aliens with a position in left hand column? (index multiple of 15)
     return state.alienPositions.some(position => position % 15 === 0)
   } else if (side === 'right') {
     // are there any aliens with a position in right hand column? (index multiple of 15 -1)
-=======
-    return state.alienPositions.some(position => position % 15 === 0)
-  } else if (side === 'right') {
->>>>>>> afaaa8f (aliens move down)
     return state.alienPositions.some(position => position % 15 === 14)
   }
 }
 
+const checkGameState = (interval) => {
+  // if there are no more aliens
+  if (state.alienPositions.length === 0) {
+    // stop aliens
+    clearInterval(interval)
+    // set game state
+    state.gameover = true
+    // show win message
+    drawMessage("HUMAN WINS!")
+
+    // if aliens reach bottom row..ish
+  } else if (state.alienPositions.some(position => position >= state.shipPosition)){
+    // stop aliens
+    clearInterval(interval)
+    // set game state
+    state.gameover = true
+    // make ship go boom
+    state.cells[state.shipPosition].classList.remove('spaceship')
+    state.cells[state.shipPosition].classList.add('hit')
+    // show lose message
+    drawMessage("GAME OVER!")
+  }
+}
+
+const drawMessage = (message)  => {
+  // add message element with class
+  const messageEl = document.createElement('div')
+  messageEl.classList.add('message')
+
+  // append h1 with text
+  const h1 = document.createElement('h1')
+  h1.innerText = message
+  messageEl.append(h1)
+
+  // append el to the app
+  state.element.append(messageEl)
+}
 
 // query the page for the element
 const appElement = document.querySelector('.app')
